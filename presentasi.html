@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dari Main Game jadi Jagoan AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+        [x-cloak]{display:none!important}
+        .glass{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1)}
+        .slide-enter{animation:slideIn .6s ease both}
+        @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .float-anim{animation:float 3s ease-in-out infinite}
+        @keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(6,182,212,0.3)}50%{box-shadow:0 0 40px rgba(6,182,212,0.6)}}
+        .glow{animation:pulse-glow 2s ease-in-out infinite}
+        .gradient-text{background:linear-gradient(135deg,#06b6d4,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .section-badge{background:linear-gradient(135deg,rgba(6,182,212,0.15),rgba(139,92,246,0.15));border:1px solid rgba(6,182,212,0.3)}
+    </style>
+</head>
+<body class="bg-[#0a0a0f] text-white overflow-hidden">
+
+<div x-data="{
+    s:1, total:30,
+    next(){if(this.s<this.total)this.s++},
+    prev(){if(this.s>1)this.s--},
+    init(){
+        lucide.createIcons();
+        window.addEventListener('keydown',e=>{
+            if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();this.next()}
+            if(e.key==='ArrowLeft'){e.preventDefault();this.prev()}
+        });
+        this.$watch('s',()=>this.$nextTick(()=>lucide.createIcons()))
+    }
+}" x-init="init()" class="relative w-full h-screen" x-cloak>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
+        <div class="h-full bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-500" :style="`width:${(s/total)*100}%`"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-3 left-0 w-full flex justify-between items-center px-8 z-40">
+        <span class="text-xs text-white/30 tracking-widest uppercase">AI Introduction</span>
+        <span class="text-xs text-white/30 font-mono" x-text="`${s} / ${total}`"></span>
+    </header>
+
+    <!-- SLIDE 1: Title Slide -->
+    <section x-show="s===1" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-4xl">
+            <div class="section-badge inline-block px-4 py-1.5 rounded-full mb-6">
+                <span class="text-xs font-medium text-cyan-300 tracking-wider uppercase">Situation: AI Ada di Mana-Mana</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] mb-6">
+                Dari Main Game<br>jadi <span class="gradient-text">Jagoan AI</span>
+            </h1>
+            <p class="text-base md:text-lg text-white/50 max-w-2xl mx-auto leading-relaxed mb-10">
+                Kamu pasti sering dengar soal AI. Katanya canggih, katanya bakal ngubah dunia. Tapi apa sih itu sebenarnya? Yuk, kita bedah bareng-bareng!
+            </p>
+            <img src="assets/slide1_hero.png" alt="Student with AI" class="mx-auto w-64 h-64 object-cover rounded-3xl shadow-2xl shadow-cyan-500/20 glow">
+        </div>
+    </section>
+
+    <!-- SLIDE 2: Two Column - Image Left -->
+    <section x-show="s===2" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <div class="flex justify-center">
+                <img src="assets/slide2_old_ai.png" alt="Robot Jadul" class="w-72 h-72 object-cover rounded-3xl shadow-xl float-anim">
+            </div>
+            <div>
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">1.2 Kenapa AI Populer</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">AI: Dari Cupu<br>Jadi <span class="gradient-text">Populer</span></h2>
+                <p class="text-white/50 text-base leading-relaxed">
+                    Dulu, AI itu kayak asisten suara yang kaku. Cuma bisa jawab kalau ditanya "Jam berapa?" atau "Siapa presiden?". Kaku banget, kan? Pokoknya, nggak asik diajak ngobrol.
+                </p>
+                <div class="mt-6 glass rounded-2xl p-4 inline-flex items-center gap-3">
+                    <i data-lucide="message-circle-x" class="w-5 h-5 text-red-400"></i>
+                    <span class="text-sm text-white/40 italic">"Maaf, saya tidak mengerti."</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 3: Two Column - Text Left -->
+    <section x-show="s===3" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <div>
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">1.2 Kenapa AI Populer</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Level Up!<br>AI Sekarang <span class="gradient-text">Jago Ngobrol</span></h2>
+                <p class="text-white/50 text-base leading-relaxed">
+                    Sekarang? AI udah naik level! Dia bisa jadi temen curhat, partner nugas, sampai "chef" yang ngasih resep masakan. Cukup ketik apa maumu, dan <em>voila</em>!
+                </p>
+            </div>
+            <div class="flex justify-center">
+                <img src="assets/slide3_modern_ai.png" alt="Modern AI Chat" class="w-72 h-72 object-cover rounded-3xl shadow-xl float-anim">
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 4: Tiled Icons -->
+    <section x-show="s===4" x-transition:enter="slide-enter" class="absolute inset-0 flex flex-col items-center justify-center px-8">
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-violet-500/8 rounded-full blur-[100px]"></div>
+        <div class="relative z-10 text-center max-w-5xl w-full">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">1.2 Kenapa AI Populer</span>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-3">Superpower Baru<br>di <span class="gradient-text">Ujung Jari</span></h2>
+            <p class="text-white/40 text-base mb-10 max-w-xl mx-auto">Bayangin, semua ini cuma modal ketik!</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="glass rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="book-text" class="w-8 h-8 text-cyan-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1">Ringkas Cepat</h3>
+                    <p class="text-sm text-white/40">Buku tebal jadi ringkasan dalam sekejap.</p>
+                </div>
+                <div class="glass rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="lightbulb" class="w-8 h-8 text-violet-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1">Ide Konten</h3>
+                    <p class="text-sm text-white/40">Dapet ide caption buat Instagram.</p>
+                </div>
+                <div class="glass rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="calculator" class="w-8 h-8 text-emerald-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1">Paham Pelajaran</h3>
+                    <p class="text-sm text-white/40">Minta jelasin rumus Fisika yang bikin pusing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 5: Highlighted Text / Mitos -->
+    <section x-show="s===5" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/8 rounded-full blur-[120px]"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <div class="flex justify-center">
+                <img src="assets/slide5_mitos.png" alt="AI Mitos" class="w-72 h-72 object-cover rounded-3xl shadow-xl shadow-red-500/10">
+            </div>
+            <div>
+                <div class="inline-block px-3 py-1 rounded-full mb-4 bg-red-500/10 border border-red-500/20">
+                    <span class="text-[10px] font-medium text-red-300 tracking-wider uppercase">Complication: Sering Salah Paham</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Mitos #1:<br>AI Punya <span class="text-red-400">Perasaan?</span></h2>
+                <p class="text-white/50 text-base leading-relaxed mb-6">
+                    "AI-nya baik banget!" atau "Dia ngerti perasaanku!". Sering dengar gitu? Itu mitos! AI nggak punya perasaan. Dia cuma dilatih buat ngerespons seolah-olah punya emosi, kayak aktor di film.
+                </p>
+                <div class="inline-block px-6 py-2 bg-red-500/20 border border-red-500/40 rounded-full">
+                    <span class="text-2xl font-black text-red-400 tracking-wider">MITOS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 2 START -->
+
+    <!-- SLIDE 6: Highlighted Text - Fakta AI Peniru Pola -->
+    <section x-show="s===6" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/8 rounded-full blur-[130px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-5">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">1.3 Mitos & Fakta tentang AI</span>
+            </div>
+            <div class="grid md:grid-cols-5 gap-10 items-center">
+                <div class="md:col-span-3">
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+                        AI itu<br><span class="gradient-text">Peniru Pola</span><br>Ulung
+                    </h2>
+                    <p class="text-white/50 text-base md:text-lg leading-relaxed">
+                        Kenyataannya, AI itu ibarat murid yang udah baca <strong class="text-white/80">jutaan buku</strong>. Dia nggak "ngerti" isinya, tapi dia hafal banget polanya. Jadi, dia bisa <em>nebak</em> kata atau gambar berikutnya dengan sangat akurat.
+                    </p>
+                </div>
+                <div class="md:col-span-2 flex flex-col items-center justify-center gap-6">
+                    <!-- Visual: jaringan pola -->
+                    <div class="relative w-48 h-48">
+                        <div class="absolute inset-0 rounded-full border border-cyan-500/20"></div>
+                        <div class="absolute inset-4 rounded-full border border-violet-500/20"></div>
+                        <div class="absolute inset-8 rounded-full border border-cyan-400/20"></div>
+                        <!-- nodes -->
+                        <div class="absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 glow"></div>
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-violet-400"></div>
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-emerald-400"></div>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-pink-400"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-violet-500"></div>
+                        <!-- label -->
+                        <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 192 192">
+                            <line x1="96" y1="16" x2="96" y2="96" stroke="#06b6d4" stroke-width="1"/>
+                            <line x1="96" y1="176" x2="96" y2="96" stroke="#8b5cf6" stroke-width="1"/>
+                            <line x1="16" y1="96" x2="96" y2="96" stroke="#10b981" stroke-width="1"/>
+                            <line x1="176" y1="96" x2="96" y2="96" stroke="#ec4899" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="px-8 py-3 bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/30 rounded-2xl">
+                        <span class="text-3xl font-black tracking-widest text-cyan-300">FAKTA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 7: Animated Text - AI = Autocomplete Level Dewa -->
+    <section x-show="s===7" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8"
+        x-data="{ words: ['Penebak', 'Kata', 'Super!'], wIdx: 0 }"
+        x-init="$watch('$el', () => { if(s===7) { wIdx=0; let t = setInterval(()=>{ if(wIdx < words.length-1) wIdx++; else clearInterval(t); }, 700); } })">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[120px]"></div>
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-4xl w-full text-center">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-5">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">2.1 AI sebagai Penebak Kata Pintar</span>
+            </div>
+            <h2 class="text-5xl md:text-7xl font-black tracking-tight mb-8">
+                AI = Autocomplete<br><span class="gradient-text">Level Dewa</span>
+            </h2>
+            <!-- Animated word reveal -->
+            <div class="glass rounded-3xl p-8 max-w-2xl mx-auto mb-8">
+                <p class="text-white/40 text-sm uppercase tracking-widest mb-4">Proses AI menebak kata per kata...</p>
+                <div class="flex items-center justify-center gap-3 flex-wrap">
+                    <span class="text-xl md:text-2xl font-semibold text-white/60">AI itu seperti...</span>
+                    <template x-for="(word, i) in words" :key="i">
+                        <span x-show="wIdx >= i"
+                              x-transition:enter="transition ease-out duration-500"
+                              x-transition:enter-start="opacity-0 scale-50"
+                              x-transition:enter-end="opacity-100 scale-100"
+                              :class="i === 0 ? 'text-cyan-300' : i === 1 ? 'text-violet-300' : 'text-emerald-300'"
+                              class="text-xl md:text-2xl font-black px-3 py-1 rounded-xl bg-white/5 border border-white/10"
+                              x-text="word">
+                        </span>
+                    </template>
+                </div>
+            </div>
+            <p class="text-white/50 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                Tahu fitur <strong class="text-white">autocomplete</strong> di HP-mu? Waktu ngetik <em class="text-cyan-300">"Aku mau..."</em>, HP-mu nyaranin kata <em class="text-cyan-300">"makan"</em>. Nah, AI itu versi level dewa-nya — dia menebak dari <strong class="text-white">triliunan</strong> contoh yang pernah ia "baca".
+            </p>
+        </div>
+    </section>
+
+    <!-- SLIDE 8: Two Column - AI Bisa Ngaco -->
+    <section x-show="s===8" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-amber-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <!-- LEFT: visual karikatur robot -->
+            <div class="flex flex-col items-center gap-6">
+                <div class="glass rounded-3xl p-8 w-full max-w-xs text-center relative">
+                    <!-- Robot face -->
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 border border-white/10 flex flex-col items-center justify-center gap-1">
+                        <div class="flex gap-3">
+                            <div class="w-3 h-3 rounded-full bg-cyan-400 glow"></div>
+                            <div class="w-3 h-3 rounded-full bg-cyan-400 glow"></div>
+                        </div>
+                        <div class="w-8 h-1.5 rounded-full bg-white/20 mt-1"></div>
+                    </div>
+                    <p class="text-xs text-white/50 mb-3">Menyerahkan laporan...</p>
+                    <!-- Paper -->
+                    <div class="bg-white rounded-xl p-3 text-left relative">
+                        <div class="text-slate-800 text-xs font-bold mb-1">Hasil Riset AI ✨</div>
+                        <div class="text-slate-400 text-[9px] leading-tight">Lorem ipsum dolor sit amet, consectetur adipiscing elit bla bla bla...</div>
+                        <div class="mt-2 text-[8px] text-red-500 font-bold">Sumber: mimpisemalam.com</div>
+                        <!-- A+ badge -->
+                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center">
+                            <span class="text-white text-[9px] font-black">A+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30">
+                    <span class="text-amber-300 text-xs font-semibold tracking-wider">⚠️ HALLUCINATION ALERT</span>
+                </div>
+            </div>
+            <!-- RIGHT: content -->
+            <div>
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">2.2 Kenapa AI Bisa Salah</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                    Hati-hati,<br>AI Juga Bisa<br><span class="text-amber-400">"Ngaco"!</span>
+                </h2>
+                <p class="text-white/50 text-base leading-relaxed mb-6">
+                    Pernah lihat temenmu jawab soal dengan super <strong class="text-white">pede</strong> tapi ternyata salah total? Nah, AI juga gitu! Dia bisa ngasih jawaban yang kelihatannya rapi dan meyakinkan — padahal datanya salah atau bahkan <em class="text-amber-300">ngarang</em>.
+                </p>
+                <div class="glass rounded-2xl p-4 flex items-start gap-3">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+                    <p class="text-sm text-white/40">Fenomena ini disebut <strong class="text-amber-300">AI Hallucination</strong> — ketika AI menghasilkan informasi yang terdengar masuk akal, tapi faktanya tidak benar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 9: Centered Message - Jangan Telan Mentah-Mentah -->
+    <section x-show="s===9" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-orange-500/8 rounded-full blur-[140px]"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-3xl">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-6">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">2.2 Kenapa AI Bisa Salah</span>
+            </div>
+            <!-- Big exclamation icon -->
+            <div class="w-28 h-28 mx-auto mb-8 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center shadow-2xl shadow-orange-500/30 float-anim">
+                <span class="text-6xl font-black text-white leading-none">!</span>
+            </div>
+            <!-- <h2 class="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-6">
+                The <span class="gradient-text">"Aha!"</span><br>Moment
+            </h2> -->
+            <!-- Big bold CTA -->
+            <div class="inline-block px-10 py-5 bg-gradient-to-r from-orange-500 to-rose-500 rounded-3xl mb-8 shadow-xl shadow-orange-500/30">
+                <span class="text-3xl md:text-4xl font-black text-white tracking-wider">CEK & RICEK!</span>
+            </div>
+            <p class="text-white/50 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+                Jangan pernah <strong class="text-white">100% percaya</strong> sama hasil AI. Anggap dia asisten pintar yang butuh <em class="text-orange-300">bos</em> — yaitu kamu! — buat ngecek ulang pekerjaannya. Selalu <strong class="text-white">verifikasi faktanya!</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- SLIDE 10: Full Bleed - Cara Naklukin AI (Transition) -->
+    <section x-show="s===10" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center">
+        <!-- Full bleed gradient background -->
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0d0d1a] via-[#0f1629] to-[#0a0a0f]"></div>
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/15 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px]"></div>
+            <!-- Grid overlay -->
+            <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px, transparent 1px);background-size:60px 60px;"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-0 w-full h-full max-w-none">
+            <!-- LEFT: big question -->
+            <div class="flex flex-col items-start justify-center px-12 md:px-20 py-20 border-r border-white/5">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-6">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">Transisi ke Solusi</span>
+                </div>
+                <h2 class="text-5xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+                    Jadi,<br>Gimana Cara<br><span class="gradient-text">NAKLUKIN</span><br>AI?
+                </h2>
+                <p class="text-white/50 text-base leading-relaxed max-w-md">
+                    Kalau AI bisa sekeren itu tapi juga bisa ngaco, terus gimana dong? Ada <strong class="text-white">rahasianya</strong>, dan itu lebih gampang dari yang kamu kira.
+                </p>
+            </div>
+            <!-- RIGHT: visual siswa vs robot -->
+            <div class="flex flex-col items-center justify-center px-12 py-20 gap-8">
+                <!-- Stick figure student with joystick (CSS-only) -->
+                <div class="relative flex flex-col items-center">
+                    <!-- Robot (big) -->
+                    <div class="w-32 h-32 rounded-3xl bg-gradient-to-br from-slate-700 to-slate-900 border border-white/10 flex flex-col items-center justify-center gap-2 shadow-xl mb-6 float-anim">
+                        <div class="flex gap-4">
+                            <div class="w-5 h-5 rounded-full bg-cyan-400/80 glow"></div>
+                            <div class="w-5 h-5 rounded-full bg-cyan-400/80 glow"></div>
+                        </div>
+                        <div class="w-14 h-2 rounded-full bg-white/20"></div>
+                        <div class="text-xs text-white/30 mt-1">AI</div>
+                    </div>
+                    <!-- Arrow down -->
+                    <div class="flex flex-col items-center gap-1 mb-6">
+                        <div class="w-0.5 h-8 bg-gradient-to-b from-violet-400 to-cyan-400"></div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-cyan-400"></i>
+                    </div>
+                    <!-- Student (controller) -->
+                    <div class="glass rounded-3xl px-8 py-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center text-xl">👤</div>
+                        <div>
+                            <div class="text-sm font-bold text-white">Kamu</div>
+                            <div class="text-xs text-white/40">memegang kendali</div>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-500/20 border border-cyan-400/30 flex items-center justify-center">
+                            <i data-lucide="joystick" class="w-5 h-5 text-cyan-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-white/30 text-sm max-w-xs">Kamu nggak perlu takut. Kamu yang pegang joystick-nya!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 3 START -->
+
+    <!-- SLIDE 11: Before/After - Prompt Buruk vs Bagus -->
+    <section x-show="s===11" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-red-500/6 rounded-full blur-[100px]"></div>
+            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full">
+            <div class="text-center mb-8">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.1 Apa Itu Prompt</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">
+                    <span class="text-white/90">"Prompt":</span> Perintah <span class="gradient-text">Ajaibmu</span>
+                </h2>
+                <p class="text-white/40 text-sm mt-2 max-w-lg mx-auto">Anggap AI itu jin super kuat — prompt adalah manteranya. Mantera jelek, hasilnya aneh. Mantera bagus, hasilnya luar biasa!</p>
+            </div>
+            <!-- Before / After split -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT: Prompt Buruk -->
+                <div class="glass rounded-3xl p-7 border border-red-500/20 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-red-500/3 group-hover:bg-red-500/5 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-6 h-6 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center">
+                                <span class="text-red-400 text-xs font-black">✕</span>
+                            </div>
+                            <span class="text-red-400 text-xs font-bold uppercase tracking-widest">Prompt Buruk</span>
+                        </div>
+                        <!-- Input -->
+                        <div class="bg-black/30 rounded-2xl p-4 mb-4 border border-white/5">
+                            <p class="text-white/40 text-xs mb-1">Kamu ketik:</p>
+                            <p class="text-white font-mono text-base">"fotosintesis"</p>
+                        </div>
+                        <!-- Output mockup -->
+                        <div class="bg-black/20 rounded-2xl p-4 border border-white/5">
+                            <p class="text-white/40 text-xs mb-2">Output AI:</p>
+                            <div class="space-y-1.5">
+                                <div class="h-2.5 bg-white/10 rounded-full w-full"></div>
+                                <div class="h-2.5 bg-white/8 rounded-full w-5/6"></div>
+                                <div class="h-2.5 bg-white/10 rounded-full w-full"></div>
+                                <div class="h-2.5 bg-white/6 rounded-full w-4/5"></div>
+                                <div class="h-2.5 bg-white/8 rounded-full w-full"></div>
+                                <div class="h-2.5 bg-white/5 rounded-full w-3/4"></div>
+                            </div>
+                            <p class="text-red-400/60 text-[10px] mt-3 italic">...jawaban teknis yang bikin pusing 😵</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT: Prompt Bagus -->
+                <div class="glass rounded-3xl p-7 border border-emerald-500/20 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-emerald-500/3 group-hover:bg-emerald-500/5 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
+                                <span class="text-emerald-400 text-xs font-black">✓</span>
+                            </div>
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Prompt Bagus</span>
+                        </div>
+                        <!-- Input -->
+                        <div class="bg-black/30 rounded-2xl p-4 mb-4 border border-white/5">
+                            <p class="text-white/40 text-xs mb-1">Kamu ketik:</p>
+                            <p class="text-white font-mono text-sm leading-relaxed">"Jelaskan fotosintesis kayak lagi ngobrol sama anak SMP"</p>
+                        </div>
+                        <!-- Output mockup -->
+                        <div class="bg-black/20 rounded-2xl p-4 border border-white/5">
+                            <p class="text-white/40 text-xs mb-2">Output AI:</p>
+                            <p class="text-emerald-200/70 text-xs leading-relaxed">"Oke! Bayangin daun itu kayak pabrik mini. Bahan bakunya cuma tiga: <strong>sinar matahari</strong>, <strong>air</strong>, dan <strong>CO₂</strong>. Hasilnya? <strong>Oksigen</strong> buat kita napas! Keren kan?" 🌿</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 12: Tiled Icons - Resep CTCF -->
+    <section x-show="s===12" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-violet-500/8 rounded-full blur-[120px]"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-5xl w-full">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.2 Cara Membuat Prompt yang Bagus</span>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-2">
+                Resep Prompt Keren: <span class="gradient-text">C-T-C-F</span>
+            </h2>
+            <p class="text-white/40 text-base mb-10 max-w-xl mx-auto">Ingat 4 bahan ini, dan kamu auto jadi <em class="text-cyan-300">"Pawang AI"</em>!</p>
+            <!-- 4 pillars -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <!-- Character -->
+                <div class="glass rounded-3xl p-7 text-center hover:bg-white/10 transition-all duration-300 group border border-white/5 hover:border-violet-500/30">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="theater" class="w-8 h-8 text-violet-400"></i>
+                    </div>
+                    <div class="text-3xl font-black text-violet-400 mb-1">C</div>
+                    <h3 class="font-bold text-base mb-1">Character</h3>
+                    <p class="text-xs text-white/40">Beri AI sebuah peran / persona</p>
+                </div>
+                <!-- Task -->
+                <div class="glass rounded-3xl p-7 text-center hover:bg-white/10 transition-all duration-300 group border border-white/5 hover:border-cyan-500/30">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="clipboard-list" class="w-8 h-8 text-cyan-400"></i>
+                    </div>
+                    <div class="text-3xl font-black text-cyan-400 mb-1">T</div>
+                    <h3 class="font-bold text-base mb-1">Task</h3>
+                    <p class="text-xs text-white/40">Jelaskan tugas yang spesifik</p>
+                </div>
+                <!-- Context -->
+                <div class="glass rounded-3xl p-7 text-center hover:bg-white/10 transition-all duration-300 group border border-white/5 hover:border-emerald-500/30">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="target" class="w-8 h-8 text-emerald-400"></i>
+                    </div>
+                    <div class="text-3xl font-black text-emerald-400 mb-1">C</div>
+                    <h3 class="font-bold text-base mb-1">Context</h3>
+                    <p class="text-xs text-white/40">Beri tahu untuk siapa hasilnya</p>
+                </div>
+                <!-- Format -->
+                <div class="glass rounded-3xl p-7 text-center hover:bg-white/10 transition-all duration-300 group border border-white/5 hover:border-amber-500/30">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-amber-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-text" class="w-8 h-8 text-amber-400"></i>
+                    </div>
+                    <div class="text-3xl font-black text-amber-400 mb-1">F</div>
+                    <h3 class="font-bold text-base mb-1">Format</h3>
+                    <p class="text-xs text-white/40">Minta output dalam bentuk tertentu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 13: Two Column - Resep #1 Character -->
+    <section x-show="s===13" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-0 left-1/4 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <!-- LEFT: Visual profesi cards -->
+            <div class="flex flex-col items-center gap-4">
+                <div class="text-xs text-white/30 uppercase tracking-widest mb-2">Pilih perannya...</div>
+                <div class="grid grid-cols-2 gap-3 w-full max-w-xs">
+                    <div class="glass rounded-2xl p-4 text-center hover:bg-white/10 transition-all group cursor-default border border-violet-500/10 hover:border-violet-500/30">
+                        <div class="text-3xl mb-2">👨‍🏫</div>
+                        <p class="text-xs text-white/60 font-medium">Guru Fisika</p>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center hover:bg-white/10 transition-all group cursor-default border border-violet-500/10 hover:border-violet-500/30">
+                        <div class="text-3xl mb-2">🕵️</div>
+                        <p class="text-xs text-white/60 font-medium">Detektif</p>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center hover:bg-white/10 transition-all group cursor-default border border-violet-500/10 hover:border-violet-500/30">
+                        <div class="text-3xl mb-2">🧑‍🍳</div>
+                        <p class="text-xs text-white/60 font-medium">Chef</p>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center hover:bg-white/10 transition-all group cursor-default border border-violet-500/10 hover:border-violet-500/30">
+                        <div class="text-3xl mb-2">🗺️</div>
+                        <p class="text-xs text-white/60 font-medium">Pemandu Wisata</p>
+                    </div>
+                </div>
+                <!-- Template prompt -->
+                <div class="w-full max-w-xs glass rounded-2xl p-4 border border-violet-500/20 mt-2">
+                    <p class="text-[10px] text-violet-300/60 uppercase tracking-wider mb-1">Template:</p>
+                    <p class="text-sm font-mono text-violet-200">"Jadilah seorang <span class="text-violet-400 font-bold">[Profesi]</span> yang..."</p>
+                </div>
+            </div>
+            <!-- RIGHT: content -->
+            <div>
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-2xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
+                        <span class="text-2xl font-black text-violet-400">C</span>
+                    </div>
+                    <div class="section-badge px-3 py-1 rounded-full">
+                        <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">Resep #1</span>
+                    </div>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                    Beri Dia<br><span class="text-violet-400">PERAN</span><br><span class="text-white/60 text-3xl font-semibold">(Character)</span>
+                </h2>
+                <p class="text-white/50 text-base leading-relaxed mb-6">
+                    Jangan cuma nyuruh. Suruh dia <strong class="text-white">jadi "seseorang"</strong>. Mau dia jadi guru Fisika yang asik? Atau penulis novel misteri? Kasih peran → jawabannya bakal lebih berkarakter!
+                </p>
+                <div class="glass rounded-2xl p-5 border border-violet-500/20">
+                    <p class="text-[10px] text-violet-300/60 uppercase tracking-wider mb-2">Contoh nyata:</p>
+                    <p class="text-sm text-white/80 leading-relaxed italic">"Jadilah seorang <strong class="text-violet-300">pemandu wisata</strong> yang ceria. Ceritakan 3 fakta menarik tentang Candi Borobudur!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 14: Two Column - Resep #2 Task -->
+    <section x-show="s===14" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-600/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <!-- LEFT: content -->
+            <div>
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                        <span class="text-2xl font-black text-cyan-400">T</span>
+                    </div>
+                    <div class="section-badge px-3 py-1 rounded-full">
+                        <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">Resep #2</span>
+                    </div>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                    Jelaskan<br><span class="text-cyan-400">TUGASNYA</span><br><span class="text-white/60 text-3xl font-semibold">(Task)</span>
+                </h2>
+                <p class="text-white/50 text-base leading-relaxed">
+                    AI nggak bisa baca pikiranmu. Kasih tugas yang <strong class="text-white">super spesifik</strong>. Semakin detail, semakin bagus hasilnya!
+                </p>
+            </div>
+            <!-- RIGHT: Before/After examples -->
+            <div class="flex flex-col gap-4">
+                <p class="text-xs text-white/30 uppercase tracking-widest text-center">Lihat bedanya!</p>
+                <!-- Bad example -->
+                <div class="glass rounded-2xl p-5 border border-red-500/20 relative overflow-hidden">
+                    <div class="absolute top-3 right-3 text-lg">❌</div>
+                    <p class="text-[10px] text-red-400/60 uppercase tracking-wider mb-2 font-semibold">Terlalu samar</p>
+                    <p class="font-mono text-sm text-white/60">"Cerita Perang Diponegoro"</p>
+                    <p class="text-xs text-white/25 mt-2 italic">→ AI bingung mau cerita versi apa, panjang berapa...</p>
+                </div>
+                <!-- Good example -->
+                <div class="glass rounded-2xl p-5 border border-emerald-500/20 relative overflow-hidden">
+                    <div class="absolute top-3 right-3 text-lg">✅</div>
+                    <p class="text-[10px] text-emerald-400/60 uppercase tracking-wider mb-2 font-semibold">Spesifik & jelas</p>
+                    <p class="font-mono text-sm text-white/80">"Ceritakan <strong class="text-emerald-300">3 momen kunci</strong> Perang Diponegoro dalam <strong class="text-emerald-300">bahasa sederhana</strong>"</p>
+                    <p class="text-xs text-emerald-400/40 mt-2 italic">→ AI langsung ngerti dan hasilnya tepat sasaran! 🎯</p>
+                </div>
+                <!-- Key insight -->
+                <div class="flex items-center gap-3 glass rounded-2xl p-4 border border-white/5">
+                    <i data-lucide="zap" class="w-5 h-5 text-cyan-400 shrink-0"></i>
+                    <p class="text-xs text-white/40">Kata kunci: <strong class="text-white/70">angka</strong>, <strong class="text-white/70">batasan</strong>, dan <strong class="text-white/70">kata kerja aksi</strong> (buat, ceritakan, bandingkan...)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 15: Two Column - Resep #3 & #4 Context & Format -->
+    <section x-show="s===15" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/6 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-500/6 rounded-full blur-[80px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full">
+            <div class="text-center mb-8">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.2 Cara Membuat Prompt yang Bagus</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">
+                    Resep <span class="text-emerald-400">#3</span> & <span class="text-amber-400">#4</span>: <span class="gradient-text">Konteks & Format</span>
+                </h2>
+                <p class="text-white/40 text-sm mt-2">Gabungin semuanya, dan lihat bedanya!</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Context card -->
+                <div class="glass rounded-3xl p-7 border border-emerald-500/20 hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
+                            <span class="text-2xl font-black text-emerald-400">C</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-emerald-300">Context</h3>
+                            <p class="text-xs text-white/40">Buat siapa?</p>
+                        </div>
+                    </div>
+                    <i data-lucide="users" class="w-6 h-6 text-emerald-400/60 mb-3"></i>
+                    <p class="text-white/50 text-sm leading-relaxed mb-4">Kasih tahu AI siapa audiensnya. AI akan otomatis menyesuaikan bahasa & tingkat kerumitannya.</p>
+                    <div class="bg-black/30 rounded-2xl p-3 border border-emerald-500/10">
+                        <p class="text-[10px] text-emerald-400/50 uppercase mb-1">Contoh:</p>
+                        <p class="font-mono text-sm text-emerald-200/70">"...untuk <strong>siswa SMA</strong> yang baru belajar"</p>
+                    </div>
+                </div>
+                <!-- Format card -->
+                <div class="glass rounded-3xl p-7 border border-amber-500/20 hover:border-amber-500/40 transition-all">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
+                            <span class="text-2xl font-black text-amber-400">F</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-amber-300">Format</h3>
+                            <p class="text-xs text-white/40">Mau bentuk apa?</p>
+                        </div>
+                    </div>
+                    <i data-lucide="layout-list" class="w-6 h-6 text-amber-400/60 mb-3"></i>
+                    <p class="text-white/50 text-sm leading-relaxed mb-4">Minta output yang kamu inginkan. Jangan biarkan AI menebak-nebak format jawabannya.</p>
+                    <div class="bg-black/30 rounded-2xl p-3 border border-amber-500/10">
+                        <p class="text-[10px] text-amber-400/50 uppercase mb-1">Pilih salah satu:</p>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <span class="text-[10px] px-2 py-1 rounded-lg bg-amber-500/10 text-amber-300">📋 Tabel</span>
+                            <span class="text-[10px] px-2 py-1 rounded-lg bg-amber-500/10 text-amber-300">• Poin-poin</span>
+                            <span class="text-[10px] px-2 py-1 rounded-lg bg-amber-500/10 text-amber-300">¶ Paragraf</span>
+                            <span class="text-[10px] px-2 py-1 rounded-lg bg-amber-500/10 text-amber-300">📝 Daftar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Full combined example -->
+            <div class="glass rounded-3xl p-6 border border-white/10 bg-gradient-to-r from-violet-500/5 to-cyan-500/5">
+                <p class="text-[10px] text-white/30 uppercase tracking-widest mb-3 text-center">✨ Prompt CTCF lengkap ✨</p>
+                <p class="font-mono text-sm text-white/80 text-center leading-relaxed">
+                    "<span class="text-violet-300">Jadilah guru Biologi</span> yang asik. <span class="text-cyan-300">Jelaskan proses fotosintesis</span> <span class="text-emerald-300">untuk siswa SMA</span> <span class="text-amber-300">dalam bentuk 5 poin singkat</span>."
+                </p>
+                <div class="flex justify-center gap-4 mt-3 flex-wrap">
+                    <span class="text-[9px] text-violet-400 font-bold">C: Character</span>
+                    <span class="text-[9px] text-cyan-400 font-bold">T: Task</span>
+                    <span class="text-[9px] text-emerald-400 font-bold">C: Context</span>
+                    <span class="text-[9px] text-amber-400 font-bold">F: Format</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 4 START -->
+
+    <!-- SLIDE 16: Before/After - CTCF full comparison -->
+    <section x-show="s===16" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-red-500/6 rounded-full blur-[100px]"></div>
+            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-emerald-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-7">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.2 Cara Membuat Prompt yang Bagus</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">Before vs After: <span class="gradient-text">Jauh Banget!</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5">
+                <!-- BEFORE -->
+                <div class="glass rounded-3xl p-6 border border-red-500/25">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-6 h-6 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-black flex items-center justify-center">✕</span>
+                        <span class="text-red-400 text-xs font-bold uppercase tracking-widest">Prompt Cupu</span>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-3 mb-3 border border-white/5 font-mono text-sm text-white/60">"Jelasin hukum Newton"</div>
+                    <div class="bg-black/20 rounded-2xl p-4 border border-white/5 space-y-2">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-2">Output AI:</p>
+                        <div class="h-2 bg-white/10 rounded-full w-full"></div>
+                        <div class="h-2 bg-white/8 rounded-full w-5/6"></div>
+                        <div class="h-2 bg-white/10 rounded-full w-full"></div>
+                        <div class="h-2 bg-white/6 rounded-full w-4/5"></div>
+                        <div class="h-2 bg-white/8 rounded-full w-full"></div>
+                        <div class="h-2 bg-white/5 rounded-full w-3/4"></div>
+                        <div class="h-2 bg-white/7 rounded-full w-full"></div>
+                        <div class="h-2 bg-white/4 rounded-full w-2/3"></div>
+                        <p class="text-red-400/50 text-[10px] mt-2 italic">...dinding teks membosankan. 😴</p>
+                    </div>
+                </div>
+                <!-- AFTER -->
+                <div class="glass rounded-3xl p-6 border border-emerald-500/25">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-black flex items-center justify-center">✓</span>
+                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Prompt Jagoan (CTCF)</span>
+                    </div>
+                    <div class="bg-black/30 rounded-2xl p-3 mb-3 border border-white/5 font-mono text-xs text-white/70 leading-relaxed">
+                        "<span class="text-violet-300">Jadilah guru Fisika yang asik</span>, <span class="text-cyan-300">jelasin 3 hukum Newton</span> <span class="text-emerald-300">buat anak SMA</span> <span class="text-amber-300">pakai contoh balapan mobil, format poin-poin</span>."
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-4 border border-white/5 space-y-2">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-2">Output AI:</p>
+                        <p class="text-emerald-200/80 text-xs">🏎️ <strong>Hukum 1 — Kelembaman:</strong> Mobil yang ngebut, butuh rem buat berhenti!</p>
+                        <p class="text-emerald-200/80 text-xs">⚡ <strong>Hukum 2 — F=ma:</strong> Makin berat mobil, makin butuh tenaga besar.</p>
+                        <p class="text-emerald-200/80 text-xs">🔄 <strong>Hukum 3 — Aksi-Reaksi:</strong> Knalpot nyembur ke belakang, mobil melaju ke depan!</p>
+                        <p class="text-emerald-400/50 text-[10px] mt-1 italic">Jelas, relatable, dan mudah diingat! 🎯</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center gap-4 mt-4 flex-wrap text-[9px] font-bold">
+                <span class="text-violet-400">C: Character</span>
+                <span class="text-cyan-400">T: Task</span>
+                <span class="text-emerald-400">C: Context</span>
+                <span class="text-amber-400">F: Format</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 17: Prompt Challenge - Highlighted Text / Energik -->
+    <section x-show="s===17" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-yellow-400/8 rounded-full blur-[140px]"></div>
+            <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-orange-500/10 rounded-full blur-[80px]"></div>
+            <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-cyan-500/8 rounded-full blur-[80px]"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-4xl">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-6">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.5 Sesi Interaktif</span>
+            </div>
+            <!-- Trophy icon CSS -->
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-2xl shadow-yellow-500/30 float-anim">
+                <i data-lucide="trophy" class="w-12 h-12 text-white"></i>
+            </div>
+            <!-- Big energetic title -->
+            <div class="mb-6">
+                <p class="text-white/40 text-sm uppercase tracking-widest mb-2">Intermezzo:</p>
+                <h2 class="text-6xl md:text-8xl font-black tracking-tight leading-none">
+                    <span class="text-yellow-400">PROMPT</span><br>
+                    <span class="gradient-text">CHALLENGE</span>
+                    <span class="text-yellow-400 text-5xl">!</span>
+                </h2>
+            </div>
+            <p class="text-white/50 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
+                Teori cukup! Sekarang waktunya <strong class="text-white">praktek</strong>. Kalian akan dibagi menjadi beberapa kelompok untuk berlomba membuat prompt terbaik. Siap?
+            </p>
+            <!-- CTA badges -->
+            <div class="flex items-center justify-center gap-4 flex-wrap">
+                <div class="glass rounded-2xl px-6 py-3 border border-yellow-400/30 flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 text-yellow-400"></i>
+                    <span class="text-sm font-semibold text-yellow-300">Bentuk Kelompok</span>
+                </div>
+                <div class="glass rounded-2xl px-6 py-3 border border-cyan-400/30 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i>
+                    <span class="text-sm font-semibold text-cyan-300">Bikin Prompt Terbaik</span>
+                </div>
+                <div class="glass rounded-2xl px-6 py-3 border border-orange-400/30 flex items-center gap-2">
+                    <i data-lucide="medal" class="w-4 h-4 text-orange-400"></i>
+                    <span class="text-sm font-semibold text-orange-300">Menangkan!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 18: Two Column - Misi Jogja + Timer -->
+    <section x-show="s===18" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16"
+        x-data="{ secs: 300, running: false, tid: null,
+            start(){ if(!this.running){ this.running=true; this.tid=setInterval(()=>{ if(this.secs>0) this.secs--; else{ clearInterval(this.tid); this.running=false; } },1000); } },
+            reset(){ clearInterval(this.tid); this.secs=300; this.running=false; },
+            fmt(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+        }">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+            <!-- LEFT: mission icons -->
+            <div class="flex flex-col items-center gap-5">
+                <div class="glass rounded-3xl p-8 w-full max-w-xs text-center">
+                    <div class="text-6xl mb-4">🗺️</div>
+                    <h3 class="font-bold text-lg text-white mb-1">Yogyakarta</h3>
+                    <p class="text-white/40 text-sm">3 Hari · Budget Terbatas</p>
+                </div>
+                <div class="grid grid-cols-3 gap-3 w-full max-w-xs">
+                    <div class="glass rounded-2xl p-4 text-center">
+                        <div class="text-2xl">✈️</div>
+                        <p class="text-[10px] text-white/40 mt-1">Transportasi</p>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center">
+                        <div class="text-2xl">🏨</div>
+                        <p class="text-[10px] text-white/40 mt-1">Penginapan</p>
+                    </div>
+                    <div class="glass rounded-2xl p-4 text-center">
+                        <div class="text-2xl">🍜</div>
+                        <p class="text-[10px] text-white/40 mt-1">Kuliner</p>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT: mission + timer -->
+            <div>
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.5 Prompt Challenge — Misi</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-5">
+                    Misi Kalian:<br><span class="gradient-text">Liburan ke Jogja</span>
+                </h2>
+                <div class="glass rounded-2xl p-5 border border-cyan-500/20 mb-6">
+                    <p class="text-[10px] text-cyan-300/60 uppercase tracking-wider mb-2">📋 Briefing Misi:</p>
+                    <p class="text-white/70 text-sm leading-relaxed">Rancang rencana perjalanan <strong class="text-white">3 hari di Yogyakarta</strong> untuk liburan sekolah dengan <strong class="text-white">budget terbatas</strong>. Buat prompt se-kreatif & se-detail mungkin menggunakan rumus <strong class="text-cyan-300">CTCF</strong>!</p>
+                </div>
+                <!-- Interactive countdown timer -->
+                <div class="glass rounded-2xl p-5 border border-yellow-400/20 text-center">
+                    <p class="text-[10px] text-yellow-300/60 uppercase tracking-wider mb-2">⏱️ Waktu Tersisa</p>
+                    <div class="text-5xl font-black font-mono mb-4"
+                         :class="secs <= 60 ? 'text-red-400' : secs <= 120 ? 'text-yellow-400' : 'text-white'"
+                         x-text="fmt(secs)">05:00</div>
+                    <div class="flex justify-center gap-3">
+                        <button @click="start()" class="px-5 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-sm font-semibold hover:bg-emerald-500/30 transition flex items-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i> Mulai
+                        </button>
+                        <button @click="reset()" class="px-5 py-2 rounded-xl bg-white/5 border border-white/10 text-white/50 text-sm font-semibold hover:bg-white/10 transition flex items-center gap-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 19: Leaderboard / Podium -->
+    <section x-show="s===19" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-yellow-400/6 rounded-full blur-[130px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full">
+            <div class="text-center mb-8">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.5 Prompt Challenge — Hasil</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">And the <span class="text-yellow-400">winner</span> is<span class="gradient-text">...</span></h2>
+                <p class="text-white/40 text-sm mt-2">Prompt dari kelompok mana yang paling keren?</p>
+            </div>
+            <!-- Podium -->
+            <div class="flex items-end justify-center gap-4 mb-6">
+                <!-- 2nd -->
+                <div class="flex flex-col items-center gap-2 flex-1 max-w-[180px]">
+                    <div class="text-2xl">🥈</div>
+                    <div class="glass rounded-2xl p-4 w-full border border-slate-400/20 text-center">
+                        <p class="text-[9px] text-white/30 uppercase tracking-wider mb-1">Kelompok B</p>
+                        <p class="text-xs text-white/50 italic leading-relaxed">"Jadilah travel agent..."</p>
+                    </div>
+                    <div class="w-full h-16 bg-gradient-to-t from-slate-500/20 to-transparent rounded-t-xl flex items-end justify-center pb-2">
+                        <span class="text-slate-300 font-black text-xl">2</span>
+                    </div>
+                </div>
+                <!-- 1st -->
+                <div class="flex flex-col items-center gap-2 flex-1 max-w-[200px]">
+                    <div class="text-3xl float-anim">🥇</div>
+                    <div class="glass rounded-2xl p-4 w-full border border-yellow-400/30 text-center bg-yellow-400/5">
+                        <p class="text-[9px] text-yellow-400/60 uppercase tracking-wider mb-1">Kelompok A</p>
+                        <p class="text-xs text-white/70 italic leading-relaxed">"Kamu adalah pemandu wisata budaya Jogja..."</p>
+                    </div>
+                    <div class="w-full h-24 bg-gradient-to-t from-yellow-500/20 to-transparent rounded-t-xl flex items-end justify-center pb-2">
+                        <span class="text-yellow-300 font-black text-2xl">1</span>
+                    </div>
+                </div>
+                <!-- 3rd -->
+                <div class="flex flex-col items-center gap-2 flex-1 max-w-[180px]">
+                    <div class="text-2xl">🥉</div>
+                    <div class="glass rounded-2xl p-4 w-full border border-orange-400/20 text-center">
+                        <p class="text-[9px] text-white/30 uppercase tracking-wider mb-1">Kelompok C</p>
+                        <p class="text-xs text-white/50 italic leading-relaxed">"Buat itinerary hemat..."</p>
+                    </div>
+                    <div class="w-full h-10 bg-gradient-to-t from-orange-500/20 to-transparent rounded-t-xl flex items-end justify-center pb-2">
+                        <span class="text-orange-300 font-black text-lg">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-4 border border-white/5 text-center">
+                <i data-lucide="sparkles" class="w-4 h-4 text-yellow-400 inline mr-2"></i>
+                <span class="text-white/50 text-sm">Mari kita jalankan prompt pemenang langsung ke AI dan lihat hasilnya!</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 20: Process Diagram - AI Co-Pilot Proyek -->
+    <section x-show="s===20" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0a0a0f] via-[#0d1020] to-[#0a0a0f]"></div>
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-cyan-600/8 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-600/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full">
+            <div class="text-center mb-8">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.6 Demo: Mini-Proyek</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">AI sebagai <span class="gradient-text">Co-Pilot Proyek</span></h2>
+                <p class="text-white/40 text-sm mt-2">Bikin Reels: <em class="text-white/60">"Tips Belajar Efektif"</em> — dari nol, bareng AI!</p>
+            </div>
+            <!-- Process steps horizontal -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <!-- Step 1 -->
+                <div class="glass rounded-3xl p-5 text-center border border-violet-500/20 hover:border-violet-500/40 transition-all group relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-violet-500 text-white text-xs font-black flex items-center justify-center">1</div>
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-violet-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="lightbulb" class="w-6 h-6 text-violet-400"></i>
+                    </div>
+                    <h3 class="font-bold text-sm mb-1 text-violet-300">IDE</h3>
+                    <p class="text-[10px] text-white/40 leading-relaxed">Brainstorm topik & angle konten</p>
+                    <div class="mt-3 bg-black/20 rounded-xl p-2">
+                        <p class="text-[9px] font-mono text-violet-300/60">"Kasih 5 ide sudut pandang unik..."</p>
+                    </div>
+                </div>
+                <!-- Arrow -->
+                <div class="hidden md:flex items-center justify-center absolute" style="display:none"></div>
+                <!-- Step 2 -->
+                <div class="glass rounded-3xl p-5 text-center border border-cyan-500/20 hover:border-cyan-500/40 transition-all group relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-cyan-500 text-white text-xs font-black flex items-center justify-center">2</div>
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-cyan-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="search" class="w-6 h-6 text-cyan-400"></i>
+                    </div>
+                    <h3 class="font-bold text-sm mb-1 text-cyan-300">RISET</h3>
+                    <p class="text-[10px] text-white/40 leading-relaxed">Kumpulkan fakta & data pendukung</p>
+                    <div class="mt-3 bg-black/20 rounded-xl p-2">
+                        <p class="text-[9px] font-mono text-cyan-300/60">"Cari 3 teknik belajar terbukti..."</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="glass rounded-3xl p-5 text-center border border-emerald-500/20 hover:border-emerald-500/40 transition-all group relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-emerald-500 text-white text-xs font-black flex items-center justify-center">3</div>
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-emerald-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-pen-line" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h3 class="font-bold text-sm mb-1 text-emerald-300">SCRIPT</h3>
+                    <p class="text-[10px] text-white/40 leading-relaxed">Tulis narasi & hook pembuka</p>
+                    <div class="mt-3 bg-black/20 rounded-xl p-2">
+                        <p class="text-[9px] font-mono text-emerald-300/60">"Tulis hook 5 detik yang bikin penasaran..."</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="glass rounded-3xl p-5 text-center border border-amber-500/20 hover:border-amber-500/40 transition-all group relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-amber-500 text-white text-xs font-black flex items-center justify-center">4</div>
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-amber-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="send" class="w-6 h-6 text-amber-400"></i>
+                    </div>
+                    <h3 class="font-bold text-sm mb-1 text-amber-300">PUBLISH</h3>
+                    <p class="text-[10px] text-white/40 leading-relaxed">Caption, hashtag, CTA siap!</p>
+                    <div class="mt-3 bg-black/20 rounded-xl p-2">
+                        <p class="text-[9px] font-mono text-amber-300/60">"Buat caption & 10 hashtag viral..."</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom bar -->
+            <div class="glass rounded-2xl p-4 border border-white/5 flex items-center justify-center gap-3">
+                <div class="text-2xl">👤</div>
+                <div class="flex-1 h-0.5 bg-gradient-to-r from-violet-400 via-cyan-400 to-amber-400 rounded-full"></div>
+                <div class="text-2xl">🤖</div>
+                <span class="text-white/40 text-sm ml-2">Kamu + AI = Tim yang tak terkalahkan</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 5 START -->
+
+    <!-- SLIDE 21: Two Column - Ideasi & Riset -->
+    <section x-show="s===21" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-0 left-1/4 w-[350px] h-[350px] bg-violet-500/8 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-cyan-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-7">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.6 Demo Mini-Proyek · Step 1 & 2</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">Fase <span class="text-violet-400">1</span> & <span class="text-cyan-400">2</span>: <span class="gradient-text">Ideasi & Riset</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT: Ideasi -->
+                <div class="glass rounded-3xl p-7 border border-violet-500/20">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-2xl bg-violet-500/20 flex items-center justify-center">
+                            <i data-lucide="lightbulb" class="w-6 h-6 text-violet-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-violet-400/60 uppercase tracking-wider">Step 1</p>
+                            <h3 class="font-bold text-base text-violet-300">Ideasi</h3>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-3 mb-3 border border-white/5">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-2">Prompt ke AI:</p>
+                        <p class="font-mono text-xs text-violet-200/70">"Kasih 5 ide sub-topik unik untuk Reels tentang Tips Belajar Efektif buat siswa SMA."</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Output AI:</p>
+                        <div class="flex items-center gap-2"><span class="text-violet-400 text-xs">💡</span><p class="text-xs text-white/60">Teknik Pomodoro untuk fokus belajar</p></div>
+                        <div class="flex items-center gap-2"><span class="text-violet-400 text-xs">💡</span><p class="text-xs text-white/60">Cara bikin catatan yang nggak membosankan</p></div>
+                        <div class="flex items-center gap-2"><span class="text-violet-400 text-xs">💡</span><p class="text-xs text-white/60">Musik yang bikin otak lebih mudah menyerap</p></div>
+                        <div class="flex items-center gap-2"><span class="text-violet-400 text-xs">💡</span><p class="text-xs text-white/60">Belajar bareng vs. belajar sendiri</p></div>
+                        <div class="flex items-center gap-2"><span class="text-violet-400 text-xs">💡</span><p class="text-xs text-white/60">Cara istirahat yang efektif di antara sesi</p></div>
+                    </div>
+                </div>
+                <!-- RIGHT: Riset -->
+                <div class="glass rounded-3xl p-7 border border-cyan-500/20">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-2xl bg-cyan-500/20 flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-6 h-6 text-cyan-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-cyan-400/60 uppercase tracking-wider">Step 2</p>
+                            <h3 class="font-bold text-base text-cyan-300">Riset & Naskah</h3>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-3 mb-3 border border-white/5">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-2">Prompt ke AI:</p>
+                        <p class="font-mono text-xs text-cyan-200/70">"Kembangkan ide #1 (Pomodoro). Beri 3 poin naskah & 1 fakta ilmiah yang wow!"</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Output AI:</p>
+                        <div class="flex items-start gap-2"><span class="text-cyan-400 text-xs mt-0.5">✦</span><p class="text-xs text-white/60">Hook: "25 menit fokus = otak lebih tajam dari belajar 2 jam nonstop"</p></div>
+                        <div class="flex items-start gap-2"><span class="text-cyan-400 text-xs mt-0.5">✦</span><p class="text-xs text-white/60">Isi: Cara kerja timer Pomodoro step-by-step</p></div>
+                        <div class="flex items-start gap-2"><span class="text-cyan-400 text-xs mt-0.5">✦</span><p class="text-xs text-white/60">CTA: "Coba sekarang & share hasilnya!"</p></div>
+                        <div class="bg-cyan-500/10 rounded-xl p-2 mt-2 border border-cyan-500/20">
+                            <p class="text-[10px] text-cyan-300/80">🔬 <strong>Fakta:</strong> Studi Harvard: otak butuh jeda 5–10 mnt tiap 25 mnt untuk konsolidasi memori.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 22: Two Column - Visual & Promosi -->
+    <section x-show="s===22" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-0 right-0 w-[350px] h-[350px] bg-pink-500/8 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-0 left-0 w-[350px] h-[350px] bg-amber-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-7">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.6 Demo Mini-Proyek · Step 3 & 4</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">Fase <span class="text-pink-400">3</span> & <span class="text-amber-400">4</span>: <span class="gradient-text">Visual & Promosi</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT: Visual -->
+                <div class="glass rounded-3xl p-7 border border-pink-500/20">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-2xl bg-pink-500/20 flex items-center justify-center">
+                            <i data-lucide="video" class="w-6 h-6 text-pink-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-pink-400/60 uppercase tracking-wider">Step 3</p>
+                            <h3 class="font-bold text-base text-pink-300">Ide Visual</h3>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-3 mb-3 border border-white/5">
+                        <p class="font-mono text-xs text-pink-200/70">"Kasih ide visual/adegan untuk tiap poin naskah Pomodoro tadi, gaya Reels kekinian."</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2"><span class="text-pink-400 text-xs">🎬</span><p class="text-xs text-white/60"><strong>Adegan 1:</strong> Close-up timer HP countdown 25:00 di meja belajar</p></div>
+                        <div class="flex items-start gap-2"><span class="text-pink-400 text-xs">🎬</span><p class="text-xs text-white/60"><strong>Adegan 2:</strong> Time-lapse nulis catatan dengan pensil warna-warni</p></div>
+                        <div class="flex items-start gap-2"><span class="text-pink-400 text-xs">🎬</span><p class="text-xs text-white/60"><strong>Adegan 3:</strong> Grafik perbandingan sebelum & sesudah pakai Pomodoro</p></div>
+                    </div>
+                </div>
+                <!-- RIGHT: Promosi -->
+                <div class="glass rounded-3xl p-7 border border-amber-500/20">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 flex items-center justify-center">
+                            <i data-lucide="megaphone" class="w-6 h-6 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-amber-400/60 uppercase tracking-wider">Step 4</p>
+                            <h3 class="font-bold text-base text-amber-300">Caption & Promosi</h3>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-3 mb-3 border border-white/5">
+                        <p class="font-mono text-xs text-amber-200/70">"Buatkan 3 alternatif caption IG yang catchy + 10 hashtag relevan."</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-amber-500/8 rounded-xl p-3 border border-amber-500/15">
+                            <p class="text-xs text-amber-200/80 italic">"Udah berjam-jam belajar tapi nggak masuk-masuk? 😩 Coba teknik ini! ✨"</p>
+                        </div>
+                        <div class="bg-amber-500/8 rounded-xl p-3 border border-amber-500/15">
+                            <p class="text-xs text-amber-200/80 italic">"Rahasia nilai A yang gurumu nggak pernah kasih tau 🤫📚"</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <span class="text-[9px] text-amber-300/60">#TipsBelajar</span>
+                            <span class="text-[9px] text-amber-300/60">#Pomodoro</span>
+                            <span class="text-[9px] text-amber-300/60">#BelajarEfektif</span>
+                            <span class="text-[9px] text-amber-300/60">#StudentLife</span>
+                            <span class="text-[9px] text-amber-300/60">#AIuntukPelajar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 23: Highlighted Text - Recap Timeline -->
+    <section x-show="s===23" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/8 rounded-full blur-[130px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full text-center">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">3.6 Demo · Kesimpulan</span>
+            </div>
+            <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-3">Dari Ide Jadi Konten:<br><span class="text-emerald-400">5 Menit!</span> ⚡</h2>
+            <p class="text-white/40 text-base mb-10 max-w-xl mx-auto">AI bukan cuma menjawab — ia membantumu berpikir <strong class="text-white/70">terstruktur</strong> dari awal sampai akhir.</p>
+            <!-- Timeline -->
+            <div class="relative flex items-center justify-between max-w-3xl mx-auto mb-10 px-4">
+                <div class="absolute top-5 left-8 right-8 h-0.5 bg-gradient-to-r from-violet-500 via-cyan-400 via-pink-400 to-emerald-400"></div>
+                <div class="flex flex-col items-center gap-2 relative z-10">
+                    <div class="w-10 h-10 rounded-full bg-violet-500 flex items-center justify-center shadow-lg shadow-violet-500/30"><i data-lucide="lightbulb" class="w-5 h-5 text-white"></i></div>
+                    <p class="text-[10px] text-violet-300 font-semibold">Ide</p>
+                </div>
+                <div class="flex flex-col items-center gap-2 relative z-10">
+                    <div class="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/30"><i data-lucide="book-open" class="w-5 h-5 text-white"></i></div>
+                    <p class="text-[10px] text-cyan-300 font-semibold">Riset</p>
+                </div>
+                <div class="flex flex-col items-center gap-2 relative z-10">
+                    <div class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center shadow-lg shadow-pink-500/30"><i data-lucide="video" class="w-5 h-5 text-white"></i></div>
+                    <p class="text-[10px] text-pink-300 font-semibold">Visual</p>
+                </div>
+                <div class="flex flex-col items-center gap-2 relative z-10">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30"><i data-lucide="send" class="w-5 h-5 text-white"></i></div>
+                    <p class="text-[10px] text-emerald-300 font-semibold">Posting!</p>
+                </div>
+            </div>
+            <!-- Big quote -->
+            <div class="glass rounded-3xl px-10 py-7 border border-emerald-500/20 max-w-2xl mx-auto">
+                <p class="text-xl md:text-2xl font-bold text-white/80 leading-relaxed italic">"AI membantumu <span class="text-emerald-300">berpikir lebih cepat</span>, bukan <span class="text-red-400">menggantikan</span> pikiranmu."</p>
+                <div class="flex items-center justify-center gap-2 mt-4">
+                    <div class="w-1 h-1 rounded-full bg-emerald-400"></div>
+                    <p class="text-[10px] text-white/30 uppercase tracking-widest">Key Takeaway</p>
+                    <div class="w-1 h-1 rounded-full bg-emerald-400"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 6 START -->
+
+    <!-- SLIDE 24: Two Column - AI Partner vs Joki -->
+    <section x-show="s===24" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-emerald-500/8 rounded-full blur-[100px]"></div>
+            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-red-500/8 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-7">
+                <div class="inline-block px-3 py-1 rounded-full mb-3 bg-orange-500/10 border border-orange-500/20">
+                    <span class="text-[10px] font-medium text-orange-300 tracking-wider uppercase">4.1 Etika Penggunaan AI</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">AI itu <span class="text-emerald-400">Partner</span>,<br>Bukan <span class="text-red-400">Joki Tugas</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT: Belajar bareng AI -->
+                <div class="glass rounded-3xl p-7 border border-emerald-500/25 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-emerald-500/3 group-hover:bg-emerald-500/6 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="text-4xl">🧠✨</div>
+                            <div>
+                                <p class="text-[10px] text-emerald-400/60 uppercase tracking-wider">Jalan yang Benar</p>
+                                <h3 class="font-bold text-lg text-emerald-300">Belajar Bareng AI</h3>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2"><span class="text-emerald-400 text-sm">✓</span><p class="text-sm text-white/70">Minta AI <strong class="text-white">jelasin konsep</strong> yang belum kamu ngerti</p></div>
+                            <div class="flex items-start gap-2"><span class="text-emerald-400 text-sm">✓</span><p class="text-sm text-white/70">Pakai AI buat <strong class="text-white">cari ide awal</strong>, lalu kembangkan sendiri</p></div>
+                            <div class="flex items-start gap-2"><span class="text-emerald-400 text-sm">✓</span><p class="text-sm text-white/70">Minta AI <strong class="text-white">review tulisanmu</strong> dan kasih feedback</p></div>
+                            <div class="flex items-start gap-2"><span class="text-emerald-400 text-sm">✓</span><p class="text-sm text-white/70">Gunakan AI untuk <strong class="text-white">latihan soal</strong> dan simulasi ujian</p></div>
+                        </div>
+                        <div class="mt-5 px-4 py-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+                            <p class="text-xs text-emerald-300/80">Hasilnya: <strong>otakmu makin tajam</strong> dan skill-mu terus naik! 📈</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT: Copas dari AI -->
+                <div class="glass rounded-3xl p-7 border border-red-500/25 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-red-500/3 group-hover:bg-red-500/6 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="text-4xl">🧠💀</div>
+                            <div>
+                                <p class="text-[10px] text-red-400/60 uppercase tracking-wider">Jalan yang Salah</p>
+                                <h3 class="font-bold text-lg text-red-300">Copas dari AI</h3>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2"><span class="text-red-400 text-sm">✕</span><p class="text-sm text-white/50">Copy-paste jawaban AI <em>tanpa baca & pahami</em></p></div>
+                            <div class="flex items-start gap-2"><span class="text-red-400 text-sm">✕</span><p class="text-sm text-white/50">Submit tugas AI langsung <em>sebagai milikmu</em></p></div>
+                            <div class="flex items-start gap-2"><span class="text-red-400 text-sm">✕</span><p class="text-sm text-white/50">Nggak pernah coba berpikir sendiri <em>karena males</em></p></div>
+                            <div class="flex items-start gap-2"><span class="text-red-400 text-sm">✕</span><p class="text-sm text-white/50">Percaya 100% tanpa <em>verifikasi fakta</em></p></div>
+                        </div>
+                        <div class="mt-5 px-4 py-3 bg-red-500/10 rounded-2xl border border-red-500/20">
+                            <p class="text-xs text-red-300/80">Hasilnya: <strong>otakmu nggak berkembang</strong> — bunuh diri pelan-pelan! ☠️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 25: Two Column - Dilema Budi -->
+    <section x-show="s===25" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-500/6 rounded-full blur-[120px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-7">
+                <div class="inline-block px-3 py-1 rounded-full mb-3 bg-orange-500/10 border border-orange-500/20">
+                    <span class="text-[10px] font-medium text-orange-300 tracking-wider uppercase">4.1 Etika · Studi Kasus</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">Dilema <span class="gradient-text">Budi</span> 🤔</h2>
+                <p class="text-white/40 text-sm mt-2 max-w-xl mx-auto">Budi memakai AI untuk memperbaiki esai Bahasa Inggrisnya. Hasilnya sempurna — tapi Budi tidak 100% paham isinya.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT: Jalan A+ -->
+                <div class="glass rounded-3xl p-7 border border-yellow-400/20 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400/20 border border-yellow-400/40 rounded-full">
+                        <span class="text-yellow-300 text-[10px] font-bold uppercase tracking-widest">Pilihan A</span>
+                    </div>
+                    <div class="text-center mb-5 mt-2">
+                        <div class="text-5xl mb-2">📄✨</div>
+                        <div class="text-4xl font-black text-yellow-400">A+</div>
+                        <p class="text-white/40 text-xs mt-1">Nilai sempurna</p>
+                    </div>
+                    <div class="bg-yellow-500/8 rounded-2xl p-4 border border-yellow-500/15 mb-4">
+                        <p class="text-sm text-white/60 leading-relaxed italic">"Submit esai AI langsung. Dapet nilai bagus. Tapi... saat ujian lisan, Budi nggak bisa jelasin isinya."</p>
+                    </div>
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-3xl">🏆</span>
+                        <span class="text-4xl">❓</span>
+                    </div>
+                    <p class="text-center text-yellow-400/60 text-xs mt-2 font-semibold">Menyontek atau Kerja Cerdas?</p>
+                </div>
+                <!-- RIGHT: Jalan B -->
+                <div class="glass rounded-3xl p-7 border border-cyan-400/20 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-cyan-400/20 border border-cyan-400/40 rounded-full">
+                        <span class="text-cyan-300 text-[10px] font-bold uppercase tracking-widest">Pilihan B</span>
+                    </div>
+                    <div class="text-center mb-5 mt-2">
+                        <div class="text-5xl mb-2">📝🧠</div>
+                        <div class="text-4xl font-black text-cyan-400">B</div>
+                        <p class="text-white/40 text-xs mt-1">Nilai cukup</p>
+                    </div>
+                    <div class="bg-cyan-500/8 rounded-2xl p-4 border border-cyan-500/15 mb-4">
+                        <p class="text-sm text-white/60 leading-relaxed italic">"Pakai AI sebagai referensi, tulis ulang dengan kata sendiri, pahami setiap kalimat. Nilainya B, tapi otaknya bersinar."</p>
+                    </div>
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-3xl">📚</span>
+                        <span class="text-4xl">💡</span>
+                    </div>
+                    <p class="text-center text-cyan-400/60 text-xs mt-2 font-semibold">Yang ini jelas lebih baik!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 26: Split Screen - Polling Cerdas vs Curang -->
+    <section x-show="s===26" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center">
+        <div class="relative z-10 grid grid-cols-2 w-full h-full">
+            <!-- LEFT: Kerja Cerdas -->
+            <div class="flex flex-col items-center justify-center gap-6 px-10 border-r border-white/5 bg-emerald-500/5 hover:bg-emerald-500/10 transition-all duration-500 cursor-default">
+                <div class="text-7xl float-anim">👍</div>
+                <div class="text-center">
+                    <p class="text-[10px] text-emerald-400/50 uppercase tracking-widest mb-2">Tim</p>
+                    <h2 class="text-4xl md:text-6xl font-black text-emerald-400 tracking-tight leading-tight">KERJA<br>CERDAS</h2>
+                </div>
+                <div class="glass rounded-2xl px-6 py-4 border border-emerald-500/20 max-w-xs text-center">
+                    <p class="text-xs text-white/50 leading-relaxed">"AI adalah alat. Yang penting hasilnya, dan kita belajar darinya."</p>
+                </div>
+                <div class="text-6xl font-black text-emerald-400/20">A</div>
+            </div>
+            <!-- RIGHT: Curang -->
+            <div class="flex flex-col items-center justify-center gap-6 px-10 bg-red-500/5 hover:bg-red-500/10 transition-all duration-500 cursor-default">
+                <div class="text-7xl" style="animation:float 3s ease-in-out infinite; animation-delay:.5s">👎</div>
+                <div class="text-center">
+                    <p class="text-[10px] text-red-400/50 uppercase tracking-widest mb-2">Tim</p>
+                    <h2 class="text-4xl md:text-6xl font-black text-red-400 tracking-tight leading-tight">INI<br>CURANG</h2>
+                </div>
+                <div class="glass rounded-2xl px-6 py-4 border border-red-500/20 max-w-xs text-center">
+                    <p class="text-xs text-white/50 leading-relaxed">"Kalau kamu nggak paham isinya, itu bukan karya kamu."</p>
+                </div>
+                <div class="text-6xl font-black text-red-400/20">B</div>
+            </div>
+        </div>
+        <!-- Center divider label -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 glass px-4 py-2 rounded-full border border-white/10">
+            <p class="text-xs text-white/40 uppercase tracking-widest">VS</p>
+        </div>
+        <!-- Top label -->
+        <div class="absolute top-8 left-1/2 -translate-x-1/2 text-center z-20">
+            <div class="section-badge inline-block px-3 py-1 rounded-full">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">4.1 Etika · Diskusi Kelas</span>
+            </div>
+            <p class="text-white/30 text-xs mt-2">Tidak ada jawaban benar atau salah — yang penting: berpikir kritis!</p>
+        </div>
+    </section>
+
+    <!-- SLIDE 27: Process Diagram - Golden Rule -->
+    <section x-show="s===27" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-400/6 rounded-full blur-[130px]"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl w-full text-center">
+            <div class="section-badge inline-block px-3 py-1 rounded-full mb-4">
+                <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">4.1 Etika · Aturan Emas</span>
+            </div>
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <span class="text-3xl">🏅</span>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">The <span class="text-amber-400">Golden Rule</span></h2>
+            </div>
+            <p class="text-white/40 text-base mb-10 max-w-lg mx-auto">Pakai AI buat ideasi & kerangka. Tapi <strong class="text-white/70">hasil akhir = karya kamu sendiri</strong>!</p>
+            <!-- Process flow -->
+            <div class="flex items-center justify-center gap-2 md:gap-4 mb-10 flex-wrap">
+                <!-- Step 1: AI -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-slate-700 to-slate-900 border border-white/10 flex flex-col items-center justify-center gap-1 shadow-xl">
+                        <div class="flex gap-2"><div class="w-2.5 h-2.5 rounded-full bg-cyan-400/80 glow"></div><div class="w-2.5 h-2.5 rounded-full bg-cyan-400/80 glow"></div></div>
+                        <div class="w-8 h-1 rounded-full bg-white/20"></div>
+                        <p class="text-[8px] text-white/30">AI</p>
+                    </div>
+                    <p class="text-[10px] text-white/40 font-medium">Sumber Ide</p>
+                </div>
+                <!-- Arrow -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-cyan-400 to-violet-400"></div>
+                    <p class="text-[9px] text-cyan-400/60">💡 Ide & Kerangka</p>
+                </div>
+                <!-- Step 2: Otak siswa -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-violet-500/30 to-cyan-500/30 border border-violet-400/30 flex items-center justify-center shadow-xl shadow-violet-500/20">
+                        <span class="text-4xl">🧠</span>
+                    </div>
+                    <p class="text-[10px] text-white/40 font-medium">Otak Kamu</p>
+                </div>
+                <!-- Arrow -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-violet-400 to-amber-400"></div>
+                    <p class="text-[9px] text-violet-400/60">🤔 Proses & Pahami</p>
+                </div>
+                <!-- Step 3: Karya sendiri -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-500/20 to-emerald-500/20 border border-amber-400/30 flex items-center justify-center shadow-xl shadow-amber-500/20">
+                        <span class="text-4xl">✍️</span>
+                    </div>
+                    <p class="text-[10px] text-white/40 font-medium">Karya Kamu</p>
+                </div>
+                <!-- Arrow -->
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-12 h-0.5 bg-gradient-to-r from-amber-400 to-emerald-400"></div>
+                    <p class="text-[9px] text-amber-400/60">📄 Hasil Otentik</p>
+                </div>
+                <!-- Result -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center shadow-xl shadow-emerald-500/30 float-anim">
+                        <span class="text-4xl">🏆</span>
+                    </div>
+                    <p class="text-[10px] text-emerald-300 font-semibold">Sukses!</p>
+                </div>
+            </div>
+            <!-- Golden quote -->
+            <div class="glass rounded-3xl px-8 py-6 border border-amber-400/20 max-w-2xl mx-auto bg-amber-400/3">
+                <p class="text-lg md:text-xl font-bold text-white/80 leading-relaxed">"Otentisitas itu <span class="text-amber-400">nomor satu</span>. AI boleh bantu berpikir, tapi <span class="text-emerald-400">kamu yang harus memutuskan</span>."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 7 START -->
+
+    <!-- SLIDE 28: Comparison - Kamu vs Kamu+AI -->
+    <section x-show="s===28" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-[300px] h-[300px] bg-slate-500/8 rounded-full blur-[80px]"></div>
+            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="relative z-10 max-w-6xl w-full">
+            <div class="text-center mb-8">
+                <div class="section-badge inline-block px-3 py-1 rounded-full mb-3">
+                    <span class="text-[10px] font-medium text-cyan-300 tracking-wider uppercase">4.2 Masa Depan & Peluang Karier</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight">Siapa yang Bakal <span class="gradient-text">Menang?</span></h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6 items-center">
+                <!-- LEFT: Orang biasa -->
+                <div class="glass rounded-3xl p-8 text-center border border-white/5 opacity-60">
+                    <div class="relative mx-auto w-24 h-32 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-600 mx-auto mb-2"></div>
+                        <div class="w-8 h-20 bg-slate-600 rounded-t-2xl mx-auto"></div>
+                    </div>
+                    <h3 class="font-bold text-lg text-white/60 mb-2">Kamu</h3>
+                    <p class="text-xs text-white/30 leading-relaxed">Tanpa AI — kerja keras, effort besar, hasil biasa</p>
+                    <div class="mt-4 flex items-center justify-center gap-1">
+                        <div class="w-2 h-6 bg-white/20 rounded-full"></div>
+                        <div class="w-2 h-8 bg-white/20 rounded-full"></div>
+                        <div class="w-2 h-5 bg-white/20 rounded-full"></div>
+                    </div>
+                </div>
+                <!-- CENTER: VS -->
+                <div class="flex flex-col items-center gap-4">
+                    <div class="text-center">
+                        <p class="text-white/20 text-xs uppercase tracking-widest mb-2">Pertanyaan yang salah:</p>
+                        <p class="text-white/40 text-sm italic line-through">"AI vs Manusia?"</p>
+                    </div>
+                    <div class="w-12 h-0.5 bg-white/10"></div>
+                    <div class="glass rounded-2xl px-5 py-3 border border-cyan-400/30 text-center">
+                        <p class="text-cyan-300 text-xs uppercase tracking-wider font-bold mb-1">Yang Benar:</p>
+                        <p class="text-white font-bold text-sm">"Kamu + AI<br>vs yang lain"</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-8 h-8 text-cyan-400/40 hidden md:block"></i>
+                </div>
+                <!-- RIGHT: Kamu + AI -->
+                <div class="glass rounded-3xl p-8 text-center border border-cyan-500/30 bg-cyan-500/5 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-cyan-500/20 border border-cyan-400/40 rounded-full">
+                        <span class="text-cyan-300 text-[10px] font-bold uppercase tracking-widest">Level Up!</span>
+                    </div>
+                    <div class="relative mx-auto w-24 h-32 mb-4">
+                        <!-- Main figure -->
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-violet-500 mx-auto mb-2 shadow-lg shadow-cyan-400/30"></div>
+                        <div class="w-8 h-20 bg-gradient-to-b from-cyan-500 to-violet-500 rounded-t-2xl mx-auto shadow-lg shadow-cyan-400/20"></div>
+                        <!-- AI aura -->
+                        <div class="absolute -right-2 top-2 w-8 h-8 rounded-full bg-cyan-400/20 border border-cyan-400/40 flex items-center justify-center glow">
+                            <span class="text-[10px]">🤖</span>
+                        </div>
+                        <!-- Glow effect -->
+                        <div class="absolute inset-0 bg-cyan-400/5 rounded-full blur-xl"></div>
+                    </div>
+                    <h3 class="font-bold text-lg text-cyan-300 mb-2">Kamu + AI</h3>
+                    <p class="text-xs text-white/60 leading-relaxed">Sama effort, tapi hasil <strong class="text-white">10x lebih besar</strong> & lebih cepat</p>
+                    <div class="mt-4 flex items-center justify-center gap-1">
+                        <div class="w-2 h-8 bg-cyan-400/40 rounded-full"></div>
+                        <div class="w-2 h-14 bg-cyan-400/60 rounded-full"></div>
+                        <div class="w-2 h-10 bg-cyan-400/50 rounded-full"></div>
+                        <div class="w-2 h-16 bg-cyan-400/80 rounded-full glow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-white/30 text-sm italic">"It's not AI vs Human. It's <strong class="text-white/60">Human + AI</strong> vs Human without AI."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 29: Full Bleed - Sang Pawang AI (Closing) -->
+    <section x-show="s===29" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center">
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#05050a] via-[#0a0a1f] to-[#05050a]"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-500/10 rounded-full blur-[150px]"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[100px]"></div>
+            <!-- Particle-like dots -->
+            <div class="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-cyan-400/30 float-anim"></div>
+            <div class="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-violet-400/30" style="animation:float 4s ease-in-out infinite;animation-delay:.5s"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-2 h-2 rounded-full bg-cyan-400/20" style="animation:float 5s ease-in-out infinite;animation-delay:1s"></div>
+            <div class="absolute bottom-1/3 left-1/3 w-1 h-1 rounded-full bg-emerald-400/30" style="animation:float 3.5s ease-in-out infinite;animation-delay:1.5s"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-4xl px-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 glass px-4 py-2 rounded-full border border-cyan-400/30 mb-8">
+                <i data-lucide="award" class="w-4 h-4 text-yellow-400"></i>
+                <span class="text-xs text-cyan-300 uppercase tracking-widest font-bold">Penutupan</span>
+            </div>
+            <!-- Big hero text -->
+            <h2 class="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-6">
+                Kamu adalah<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-violet-300 to-cyan-300">Sang Pawang AI</span>
+                <span class="text-5xl ml-2">🧙</span>
+            </h2>
+            <p class="text-white/50 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+                Selamat! Kamu sekarang bukan cuma pengguna biasa — tapi <strong class="text-white">Pawang AI</strong>. Kamu tahu cara kerjanya, tahu bahayanya, dan yang paling penting, <em class="text-cyan-300">tahu cara mengendalikannya</em>.
+            </p>
+            <!-- 3 key takeaway pills -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+                <div class="glass px-5 py-2.5 rounded-full border border-cyan-400/25 flex items-center gap-2">
+                    <i data-lucide="brain" class="w-4 h-4 text-cyan-400"></i>
+                    <span class="text-sm text-white/70 font-medium">Paham cara kerja AI</span>
+                </div>
+                <div class="glass px-5 py-2.5 rounded-full border border-violet-400/25 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-violet-400"></i>
+                    <span class="text-sm text-white/70 font-medium">Tahu risikonya</span>
+                </div>
+                <div class="glass px-5 py-2.5 rounded-full border border-emerald-400/25 flex items-center gap-2">
+                    <i data-lucide="joystick" class="w-4 h-4 text-emerald-400"></i>
+                    <span class="text-sm text-white/70 font-medium">Bisa mengendalikan</span>
+                </div>
+            </div>
+            <!-- Final CTA -->
+            <div class="glass rounded-3xl px-10 py-6 border border-cyan-400/20 inline-block bg-gradient-to-r from-cyan-500/5 to-violet-500/5">
+                <p class="text-xl md:text-2xl font-black text-white">Masa depan ada di <span class="gradient-text">tanganmu</span>.</p>
+                <p class="text-white/40 text-sm mt-1">Gunakan kekuatan ini dengan <strong class="text-white/60">bijak</strong>! ✨</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 30: Q&A -->
+    <section x-show="s===30" x-transition:enter="slide-enter" class="absolute inset-0 flex items-center justify-center px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/8 rounded-full blur-[160px]"></div>
+            <div class="absolute top-0 left-0 w-[300px] h-[300px] bg-cyan-500/6 rounded-full blur-[80px]"></div>
+            <div class="absolute bottom-0 right-0 w-[300px] h-[300px] bg-violet-500/6 rounded-full blur-[80px]"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-4xl">
+            <!-- Floating speech bubbles (CSS) -->
+            <div class="relative mb-8">
+                <div class="absolute -top-4 -left-8 glass rounded-2xl rounded-bl-none px-4 py-2 border border-white/10 text-xs text-white/40 float-anim">Prompt itu apa lagi?</div>
+                <div class="absolute -top-6 -right-4 glass rounded-2xl rounded-br-none px-4 py-2 border border-white/10 text-xs text-white/40" style="animation:float 4s ease-in-out infinite;animation-delay:.8s">AI bisa bahaya?</div>
+                <div class="absolute top-8 -left-12 glass rounded-2xl rounded-bl-none px-4 py-2 border border-white/10 text-xs text-white/40" style="animation:float 5s ease-in-out infinite;animation-delay:1.2s">CTCF itu apa?</div>
+                <!-- Big Q&A text -->
+                <h2 class="text-8xl md:text-[10rem] font-black tracking-tighter leading-none">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 via-violet-300 to-cyan-400">Q&A</span>
+                </h2>
+            </div>
+            <p class="text-white/50 text-lg md:text-xl leading-relaxed mb-8 max-w-xl mx-auto">
+                Waktunya tanya jawab! <strong class="text-white">Jangan malu-malu</strong> — tanyain apa aja yang bikin penasaran soal AI, prompt, atau apapun! 🙋
+            </p>
+            <!-- Topic suggestions -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+                <div class="glass px-4 py-2 rounded-full border border-cyan-400/20 text-xs text-cyan-300/70">🤖 Cara Kerja AI</div>
+                <div class="glass px-4 py-2 rounded-full border border-violet-400/20 text-xs text-violet-300/70">✍️ Prompt Engineering</div>
+                <div class="glass px-4 py-2 rounded-full border border-emerald-400/20 text-xs text-emerald-300/70">⚖️ Etika AI</div>
+                <div class="glass px-4 py-2 rounded-full border border-amber-400/20 text-xs text-amber-300/70">🚀 Karier Masa Depan</div>
+                <div class="glass px-4 py-2 rounded-full border border-pink-400/20 text-xs text-pink-300/70">💡 Tips & Trik</div>
+            </div>
+            <!-- Presenter info -->
+            <div class="glass rounded-2xl px-6 py-4 inline-flex items-center gap-3 border border-white/5">
+                <i data-lucide="message-circle" class="w-5 h-5 text-cyan-400"></i>
+                <span class="text-white/40 text-sm">Silakan angkat tangan atau langsung tanya!</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATCH 7 END -->
+
+    <!-- Nav Arrows -->
+    <button @click="prev()" x-show="s>1" class="fixed left-6 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition">
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+    </button>
+    <button @click="next()" x-show="s<total" class="fixed right-6 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition">
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Slide Counter -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass px-4 py-2 rounded-full">
+        <span class="text-xs text-white/40">Gunakan <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white/60 text-[10px] mx-0.5">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white/60 text-[10px] mx-0.5">→</kbd> untuk navigasi</span>
+    </div>
+
+</div>
+</body>
+</html>
