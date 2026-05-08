@@ -1,0 +1,21 @@
+# MacOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two carriage returns
+Icon
+
+# Thumbnails
+._*
+
+# Files that might be created in the root of a FAT file system
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on external storage
+.fseventsd
+
+# Generic development artifacts
+.localized
+.DS_Store?
