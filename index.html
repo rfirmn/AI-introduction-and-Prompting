@@ -29,13 +29,22 @@
     s:1, total:30,
     next(){if(this.s<this.total)this.s++},
     prev(){if(this.s>1)this.s--},
-    init(){
+    init() {
         lucide.createIcons();
-        window.addEventListener('keydown',e=>{
-            if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();this.next()}
-            if(e.key==='ArrowLeft'){e.preventDefault();this.prev()}
+        // Gunakan 'keyup' alih-alih 'keydown' untuk mencegah trigger berulang saat tombol ditahan
+        window.addEventListener('keyup', e => {
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                e.stopImmediatePropagation(); // Mencegah event jalan dua kali
+                this.next();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                e.stopImmediatePropagation(); // Mencegah event jalan dua kali
+                this.prev();
+            }
         });
-        this.$watch('s',()=>this.$nextTick(()=>lucide.createIcons()))
+        this.$watch('s', () => this.$nextTick(() => lucide.createIcons()));
     }
 }" x-init="init()" class="relative w-full h-screen" x-cloak>
 
